@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.6/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <script>
+        var url = "./mahjongsoul_yaku_overview.ods";
+        var req = new XMLHttpRequest();
+        req.open("GET", url, true);
+        req.responseType = "arraybuffer";
+        req.onload = function(e) {
+            var data = new Uint8Array(req.response);
+            var workbook = XLSX.read(data, {type:"array"});
+            var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            var htmlTable = XLSX.utils.sheet_to_html(firstSheet, {id:'htmlTable'});
+            $('body').append(htmlTable);
+            console.log(htmlTable);
+            $('<thead></thead>').prependTo('#htmlTable').append($('#htmlTable tr:first'));
+            $(document).ready( function () {
+                    $('#htmlTable').DataTable();
+            } );
+        }
+        req.send();
+    </script>
+    <style>
+        body {
+            background-color: lightslategrey;
+        }
+    </style>
+    <head>
+        <title>MahjongSoul Yaku Overview</title>
+    </head>
+    <body>
+    </body>
+</html>
