@@ -18,7 +18,9 @@
             console.log(htmlTable);
             $('<thead></thead>').prependTo('#htmlTable').append($('#htmlTable tr:first'));
             $(document).ready( function () {
-                    $('#htmlTable').DataTable();
+                        $('#htmlTable').DataTable( {
+                                    "pageLength": 100
+                                });
             } );
         }
         req.send();
